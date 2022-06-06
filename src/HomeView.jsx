@@ -9,11 +9,13 @@ export const HomeView = () => {
   const contract = useContract("Waifu House DAO")
 
   const [hearts, setHearts] = useState()
+  const [error, setError] = useState()
 
   useEffect(() => {
     if (!contract) return
     contract.api.HEARTS_PERIOD().then(({ data, error }) => {
       setHearts(data)
+      setError(error)
     })
   })
 
@@ -21,7 +23,12 @@ export const HomeView = () => {
   if (!account) {
     content = <GreenText onClick={connectWallet}>Connect Wallet</GreenText>
   } else {
-    content = <div>Hearts period: {hearts}</div>
+    content = (
+      <div>
+        {hearts && <div>Hearts period: {hearts}</div>}
+        {error && <div>Error: {error}</div>}
+      </div>
+    )
   }
 
   return <Container>{content}</Container>
