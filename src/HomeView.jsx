@@ -38,9 +38,9 @@ export const HomeView = () => {
     <Container>
       {account ? (
         <div>
-          {maxSupply && <div>Max Supply: {maxSupply}</div>}
-          {supply !== undefined && <div>Supply: {supply}</div>}
-          {price && <div>Price: {price}</div>}
+          <div>Max Supply: {maxSupply}</div>
+          <div>Supply: {supply}</div>
+          <div>Price: {price}</div>
           {saleIsActive && <Button onClick={mintNft}>Mint NFT</Button>}
           <Error>{error}</Error>
         </div>
