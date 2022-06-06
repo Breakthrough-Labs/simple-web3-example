@@ -1,3 +1,4 @@
+import React from "react"
 import { SimpleWeb3Provider } from "simple-web3-sdk"
 import "./App.css"
 import logo from "./logo.svg"
