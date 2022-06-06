@@ -7,8 +7,7 @@
     "react-dom": "16.13.1",
     "react-scripts": "^3.4.1",
     "simple-web3-sdk": "0.0.12",
-    "styled-components": "^5.3.5",
-    "web-vitals": "^2.1.4"
+    "styled-components": "^5.3.5"
   },
   "scripts": {
     "start": "react-scripts start",
