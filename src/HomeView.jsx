@@ -28,19 +28,10 @@ export const HomeView = () => {
 
   useEffect(() => {
     if (!contract) return
-    console.log(contract)
-    contract.api.saleIsActive().then(({ data }) => {
-      setSaleIsActive(data)
-    })
-    contract.api.MAX_SUPPLY().then(({ data }) => {
-      setMaxSupply(data.toNumber())
-    })
-    contract.api.totalSupply().then(({ data }) => {
-      setSupply(data.toNumber())
-    })
-    contract.api.currentPrice().then(({ data }) => {
-      setPrice(data.toNumber())
-    })
+    contract.api.saleIsActive().then(({ data }) => setSaleIsActive(data))
+    contract.api.MAX_SUPPLY().then(({ data }) => setMaxSupply(data.toNumber()))
+    contract.api.totalSupply().then(({ data }) => setSupply(data.toNumber()))
+    contract.api.currentPrice().then(({ data }) => setPrice(data.toNumber()))
   }, [contract])
 
   return (
