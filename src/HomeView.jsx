@@ -1,21 +1,45 @@
 import React, { useEffect, useState } from "react"
-import { useAccount, useConnect, useContract } from "simple-web3-sdk"
+import { useAccount, useConnect, useContract, utils } from "simple-web3-sdk"
 import styled from "styled-components"
 
 export const HomeView = () => {
   const connectWallet = useConnect()
   const account = useAccount()
 
-  const contract = useContract("Waifu House DAO")
+  const contract = useContract("Combined NFT and Sale")
 
-  const [hearts, setHearts] = useState()
+  const [saleIsActive, setSaleIsActive] = useState()
+  const [maxSupply, setMaxSupply] = useState()
+  const [supply, setSupply] = useState()
+  const [price, setPrice] = useState()
+
   const [error, setError] = useState()
+
+  const mintNft = async () => {
+    const { data, error } = await contract.api.mint(1, {
+      value: utils.parseEth(price),
+    })
+    if (error) {
+      setError(error.message)
+    } else {
+      supply += 1
+    }
+  }
 
   useEffect(() => {
     if (!contract) return
-    contract.api.HEARTS_PERIOD().then(({ data, error }) => {
-      setHearts(data)
-      setError(error)
+    console.log(contract)
+    contract.api.saleIsActive().then(({ data }) => {
+      setSaleIsActive(data)
+    })
+    contract.api.MAX_SUPPLY().then(({ data }) => {
+      setMaxSupply(data.toNumber())
+    })
+    contract.api.totalSupply().then(({ data }) => {
+      setSupply(data.toNumber())
+    })
+    contract.api.currentPrice().then(({ data }) => {
+      setPrice(data.toNumber())
     })
   }, [contract])
 
@@ -23,11 +47,14 @@ export const HomeView = () => {
     <Container>
       {account ? (
         <div>
-          {hearts && <div>Hearts period: {hearts}</div>}
-          {error && <div>Error: {error}</div>}
+          {maxSupply && <div>Max Supply: {maxSupply}</div>}
+          {supply !== undefined && <div>Supply: {supply}</div>}
+          {price && <div>Price: {price}</div>}
+          {saleIsActive && <Button onClick={mintNft}>Mint NFT</Button>}
+          <Error>{error}</Error>
         </div>
       ) : (
-        <GreenText onClick={connectWallet}>Connect Wallet</GreenText>
+        <Button onClick={connectWallet}>Connect Wallet</Button>
       )}
     </Container>
   )
@@ -35,13 +62,18 @@ export const HomeView = () => {
 
 const Container = styled.div`
   display: flex;
+  padding: 50px;
+  justify-content: center;
 `
 
-const GreenText = styled.div`
-  background-color: green;
+const Button = styled.div`
+  background-color: gray;
   border-radius: 10px;
   padding: 10px;
-  margin-top: 20px;
   cursor: pointer;
-  text-decoration: none;
+`
+
+const Error = styled.div`
+  color: red;
+  max-width: 1000px;
 `
