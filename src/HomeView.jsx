@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { useAccount, useContract, useConnect } from "simple-web3-sdk"
+import { useAccount, useConnect, useContract } from "simple-web3-sdk"
 import styled from "styled-components"
 
 export const HomeView = () => {
@@ -17,21 +17,20 @@ export const HomeView = () => {
       setHearts(data)
       setError(error)
     })
-  })
+  }, [contract])
 
-  let content
-  if (!account) {
-    content = <GreenText onClick={connectWallet}>Connect Wallet</GreenText>
-  } else {
-    content = (
-      <div>
-        {hearts && <div>Hearts period: {hearts}</div>}
-        {error && <div>Error: {error}</div>}
-      </div>
-    )
-  }
-
-  return <Container>{content}</Container>
+  return (
+    <Container>
+      {account ? (
+        <div>
+          {hearts && <div>Hearts period: {hearts}</div>}
+          {error && <div>Error: {error}</div>}
+        </div>
+      ) : (
+        <GreenText onClick={connectWallet}>Connect Wallet</GreenText>
+      )}
+    </Container>
+  )
 }
 
 const Container = styled.div`
