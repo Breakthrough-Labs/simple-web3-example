@@ -1,17 +1,17 @@
 import React from "react"
 import { SimpleWeb3Provider } from "simple-web3-sdk"
 import "./App.css"
-import { ConnectView } from "./ConnectView"
+import { HomeView } from "./HomeView"
 
 function App() {
   return (
     <SimpleWeb3Provider
       settings={{
-        apiKey: process.env.API_KEY,
+        apiKey: process.env.REACT_APP_API_KEY,
         isTesting: true,
       }}
     >
-      <ConnectView />
+      <HomeView />
     </SimpleWeb3Provider>
   )
 }
