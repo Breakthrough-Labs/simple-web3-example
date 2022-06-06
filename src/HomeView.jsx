@@ -17,12 +17,10 @@ export const HomeView = () => {
 
   const mintNft = async () => {
     const { data, error } = await contract.api.mint(1, {
-      value: utils.parseEth(price),
+      value: utils.parseWei(price),
     })
     if (error) {
       setError(error.message)
-    } else {
-      supply += 1
     }
   }
 
