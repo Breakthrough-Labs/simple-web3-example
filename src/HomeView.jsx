@@ -8,8 +8,6 @@ export const HomeView = () => {
 
   const contract = useContract("Combined NFT and Sale");
 
-  console.log(contract);
-
   const [saleIsActive, setSaleIsActive] = useState();
   const [maxSupply, setMaxSupply] = useState();
   const [supply, setSupply] = useState();
