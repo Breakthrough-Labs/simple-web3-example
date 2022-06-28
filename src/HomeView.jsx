@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useAccount, useConnect, useContract, utils } from "simple-web3-sdk";
+import { useConnect, useContract, utils } from "simple-web3-sdk";
 import styled from "styled-components";
 
 export const HomeView = () => {
-  const connectWallet = useConnect();
-  const account = useAccount();
+  const { connect, isConnected } = useConnect();
 
   const contract = useContract("Combined NFT and Sale");
 
@@ -25,16 +24,16 @@ export const HomeView = () => {
   };
 
   useEffect(() => {
-    if (!account || !contract) return;
+    if (!isConnected) return;
     contract.api.saleIsActive().then(({ data }) => setSaleIsActive(data));
     contract.api.MAX_SUPPLY().then(({ data }) => setMaxSupply(data.toNumber()));
     contract.api.totalSupply().then(({ data }) => setSupply(data.toNumber()));
     contract.api.currentPrice().then(({ data }) => setPrice(data.toNumber()));
-  }, [contract]);
+  }, [contract, isConnected]);
 
   return (
     <Container>
-      {account ? (
+      {isConnected ? (
         <div>
           <div>Max Supply: {maxSupply}</div>
           <div>Supply: {supply}</div>
@@ -43,7 +42,7 @@ export const HomeView = () => {
           <Error>{error}</Error>
         </div>
       ) : (
-        <Button onClick={connectWallet}>Connect Wallet</Button>
+        <Button onClick={connect}>Connect Wallet</Button>
       )}
     </Container>
   );
