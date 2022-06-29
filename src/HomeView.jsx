@@ -25,10 +25,18 @@ export const HomeView = () => {
 
   useEffect(() => {
     if (!isConnected) return;
-    contract.api.saleIsActive().then(({ data }) => setSaleIsActive(data));
-    contract.api.MAX_SUPPLY().then(({ data }) => setMaxSupply(data.toNumber()));
-    contract.api.totalSupply().then(({ data }) => setSupply(data.toNumber()));
-    contract.api.currentPrice().then(({ data }) => setPrice(data.toNumber()));
+    contract.api.saleIsActive().then(({ data, error }) => {
+      if (data && !error) setSaleIsActive(data);
+    });
+    contract.api.MAX_SUPPLY().then(({ data, error }) => {
+      if (data && !error) setMaxSupply(data.toNumber());
+    });
+    contract.api.totalSupply().then(({ data, error }) => {
+      if (data && !error) setSupply(data.toNumber());
+    });
+    contract.api.currentPrice().then(({ data, error }) => {
+      if (data && !error) setPrice(data.toNumber());
+    });
   }, [contract, isConnected]);
 
   return (
