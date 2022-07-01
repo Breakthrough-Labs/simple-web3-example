@@ -6,7 +6,7 @@
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-scripts": "^3.4.1",
-    "simple-web3-sdk": "0.0.12",
+    "simple-web3-sdk": "0.0.18",
     "styled-components": "^5.3.5"
   },
   "scripts": {
